@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ContactIndex from '../views/ContactIndex.vue'
 import ContactDetails from '../views/ContactDetails.vue'
 import ContactEdit from '../views/ContactEdit.vue'
+import Statistics from '../views/Statistics.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -28,12 +29,9 @@ const router = createRouter({
       component: ContactEdit,
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/statistics',
+      name: 'statistics',
+      component: Statistics,
     },
   ],
 })
