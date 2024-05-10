@@ -10,10 +10,13 @@ export const bitcoinService = {
     getAvgBlockSize
 }
 
-function getRate(coins) {
-    return axios.get(`https://blockchain.info/tobtc?currency=USD&value=${coins}`)
-        .then(response => response.data)
-        .catch(error => { throw error })
+async function getRate(coins) {
+    try {
+        const response = await axios.get(`https://blockchain.info/tobtc?currency=USD&value=${coins}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
 }
 
 function getMarketPriceHistory() {
