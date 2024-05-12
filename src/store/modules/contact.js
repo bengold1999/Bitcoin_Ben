@@ -16,20 +16,20 @@ export default {
         }
     },
     actions: {
-        async loadContacts({ commit }, { filterBy }){
-            try{
-            const contacts = await contactService.query(filterBy)
-            commit({type:'setContacts',contacts})
-            }catch (err){
-                console.log(err)  
-                throw `Couldn't load contacts` 
+        async loadContacts({ commit }, { filterBy }) {
+            try {
+                const contacts = await contactService.query(filterBy)
+                commit({ type: 'setContacts', contacts })
+            } catch (err) {
+                console.log(err)
+                throw `Couldn't load contacts`
             }
         },
         async removeContact({ commit }, { contactId }) {
             try {
                 await contactService.remove(contactId)
-                commit({ type: 'removecontact', contactId })
-            } catch(err) {
+                commit({ type: 'removeContact', contactId })
+            } catch (err) {
                 console.log(err)
                 throw `Couldn't remove contact`
             }
@@ -38,5 +38,5 @@ export default {
     getters: {
         contacts(state, getters, rootGetters) { return state.contacts }
     }
-    
+
 }

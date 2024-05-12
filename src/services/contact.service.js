@@ -13,24 +13,33 @@ export const contactService = {
 }
 
 async function query(filterBy = {}) {
-    var contacts = await dbService.query(KEY)
-
-    if (!contacts || !contacts.length) {
-        contacts = _createDefaultcontacts()
-        await dbService.insert(KEY, contacts)
+    let contacts = await dbService.query(KEY)
+    console.log(contacts)
+    if (!contacts?.length) {
+        _saveContacts(g_contacts)
+        contacts = g_contacts
     }
 
-    if (filterBy.txt) {
-        const regex = new RegExp(filterBy.txt, 'i')
-        contacts = contacts.filter(contact => regex.test(contact.name))
-    }
-
-    if (filterBy.minSpeed) {
-        contacts = contacts.filter(contact => contact.speed >= filterBy.minSpeed)
+    if (filterBy.term) {
+        const regex = new RegExp(filterBy.term, 'i')
+        contacts = contacts.filter(contact =>
+            regex.test(contact.name) ||
+            regex.test(contact.phone) ||
+            regex.test(contact.email))
     }
     return contacts
 }
 
+// async function saveContact(contact) {
+//     if(contact._id) {
+//         return dbService.put(KEY, contact)
+//     } else {
+//         return dbService.post(KEY, contact)
+//     }
+// }
+function _saveContacts(contacts) {
+    localStorage.setItem(KEY, JSON.stringify(contacts))
+}
 function get(id) {
     return dbService.get(KEY, id)
 }
@@ -46,8 +55,9 @@ function save(contact) {
 
 function getEmptyContact() {
     return {
-        vendor: '',
-        speed: 0,
+        name: '',
+        email: '',
+        phone: ''
     }
 }
 

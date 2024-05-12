@@ -2,6 +2,8 @@
     <h2 v-if="!contact">Loading...</h2>
     <form v-else @submit.prevent="save" class="contact-edit">
         <input v-model="contact.name" type="text" placeholder="name">
+        <input v-model="contact.email" type="email" placeholder="email">
+        <input v-model="contact.phone" type="text" placeholder="phone">
         <!-- <input v-model="contact.speed" type="number" placeholder="speed"> -->
         <button>Save</button>
     </form>
@@ -30,7 +32,7 @@ export default {
         if(contactId) {
             this.contact = await contactService.get(contactId)
         } else {
-            this.contact = contactService.getEmptycontact()
+            this.contact = contactService.getEmptyContact()
         }
     }
 }

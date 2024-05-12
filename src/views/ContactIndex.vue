@@ -14,32 +14,39 @@ import { eventBusService, showErrorMsg, showSuccessMsg } from '@/services/event-
 export default {
   data() {
     return {
-      contacts: [],
+      // contacts: [],
     };
   },
   async created() {
-    this.contacts = await contactService.query();
-  },
+    this.$store.subscribe((cmd, state) => {
+            console.log(cmd)
+            console.log(state)
+        })
+        try {
+            this.$store.dispatch({ type: 'loadContacts' })
+        } catch (err) {
+            console.log(err)            
+        }  },
   methods: {
     async removeContact(contactId) {
       try {
-        await contactService.remove(contactId);
+        this.$store.dispatch({ type: 'removeContact', contactId })
 
-        const idx = this.contacts.findIndex(
-          (contact) => contact._id === contactId
-        );
-        this.contacts.splice(idx, 1);
-
-        // eventBusService.emit('show-user-msg', { txt: `contact ${contactId} deleted`, type: 'success', timeout: 4000 })
         showSuccessMsg(`contact ${contactId} deleted`);
       } catch (err) {
         showErrorMsg("Couldnt delete contact");
       }
     },
     async onFilter(filterBy) {
-      this.contacts = await contactService.query(filterBy);
-    },
+      try {
+                this.$store.dispatch({ type: 'loadContacts', filterBy })
+            } catch (err) {
+                console.log(err)
+            }    },
   },
+  computed: {
+        contacts() { return this.$store.getters.contacts }
+    },
     components: {
       ContactList,
       ContactFilter,
