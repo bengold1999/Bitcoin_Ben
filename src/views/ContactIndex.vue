@@ -42,7 +42,8 @@ export default {
                 this.$store.dispatch({ type: 'loadContacts', filterBy })
             } catch (err) {
                 console.log(err)
-            }    },
+            }
+              }
   },
   computed: {
         contacts() { return this.$store.getters.contacts }

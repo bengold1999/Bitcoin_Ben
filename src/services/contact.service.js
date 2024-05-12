@@ -15,13 +15,14 @@ export const contactService = {
 async function query(filterBy = {}) {
     let contacts = await dbService.query(KEY)
     console.log(contacts)
+    console.log(filterBy)
     if (!contacts?.length) {
         _saveContacts(g_contacts)
         contacts = g_contacts
     }
 
-    if (filterBy.term) {
-        const regex = new RegExp(filterBy.term, 'i')
+    if (filterBy.name) {
+        const regex = new RegExp(filterBy.name, 'i')
         contacts = contacts.filter(contact =>
             regex.test(contact.name) ||
             regex.test(contact.phone) ||
