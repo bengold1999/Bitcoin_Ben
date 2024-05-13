@@ -1,0 +1,19 @@
+.contact-list ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+
+    list-style: none;
+    padding: 10px;
+}
+
+.contact-list li {
+    // display: grid;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 20px;
+    .actions {
+        place-self: end;
+        
+    }
+}

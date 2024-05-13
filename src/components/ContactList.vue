@@ -35,22 +35,5 @@ export default {
 </script>
 
 <style lang="scss">
-.contact-list ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
 
-    list-style: none;
-    padding: 10px;
-}
-
-.contact-list li {
-    display: grid;
-    padding: 10px;
-    background-color: lightsteelblue;
-
-    .actions {
-        place-self: end;
-    }
-}
 </style>
