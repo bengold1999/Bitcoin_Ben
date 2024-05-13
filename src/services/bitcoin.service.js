@@ -19,24 +19,15 @@ async function getRate(coins) {
     }
 }
 
-function getMarketPriceHistory() {
-    return axios.get(`${CHARTS_API}/trade-volume?timespan=5months&format=json&cors=true`)
-        .then(response => {
-            if (response.data && response.data.values) {
-                const formattedData = response.data.values.map(item => {
-                    return { 
-                        name: new Date(item.x * 1000).toLocaleDateString("en-US"), 
-                        value: item.y 
-                    }
-                })
-                return formattedData
-            } else {
-                throw new Error('Invalid response format')
-            }
-        })
-        .catch(error => { throw error })
+async function getMarketPriceHistory() {
+    try {
+        const res = await axios.get(`https://api.blockchain.info/charts/market-price?timespan=5months&format=json&cors=true`)
+        console.log(res.data);
+        return res.data
+    } catch (err) {
+        console.log(err);
+    }
 }
-
 function getAvgBlockSize() {
     return axios.get(`${CHARTS_API}/average-block-size?format=json&cors=true`)
         .then(response => response.data)

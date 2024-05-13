@@ -1,44 +1,35 @@
 <template>
-  <h1>Statistics</h1>
-  <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+  <div>
+      <h1>Stats</h1>
+      <Chart v-if="history" :history="history" />
+      <div v-else>Loading chart data...</div>
+  </div>
 </template>
 
 <script>
-import { Bar } from "vue-chartjs";
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-} from "chart.js";
-
-ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale
-);
+import Chart from '@/components/Chart.vue'
+import { bitcoinService } from '@/services/bitcoin.service'
 
 export default {
-  name: "BarChart",
-  components: { Bar },
+  components: { Chart },
   data() {
-    return {
-      chartData: {
-        labels: ["January", "February", "March"],
-        datasets: [{ data: [40, 20, 12] }],
-      },
-      chartOptions: {
-        responsive: true,
-      },
-    };
+      return {
+          history: null
+      }
   },
-};
+  created() {
+      this.onInit()
+  },
+  methods: {
+      async onInit() {
+          try {
+              this.history = await bitcoinService.getMarketPriceHistory()
+          } catch (err) {
+              console.error('Error loading data:', err)
+          }
+      }
+  }
+}
 </script>
 
 <style>
